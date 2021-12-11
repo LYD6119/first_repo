@@ -1,0 +1,42 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
+
+ENTITY cnt10 is
+ PORT(clk,clr:in std_logic;
+      LED10:out std_logic_vector(6 downto 0));
+END cnt10;
+
+architecture logic_function of cnt10 is
+  signal cq10:std_logic_vector(3 downto 0);
+begin
+	process(clk,clr)
+	begin
+		IF (clr='0') then
+			cq10<="0000";
+		ELSIF (clk'event and clk='1') then    
+				IF (cq10="1001") then
+					cq10<="0000"; 			
+				ELSE 
+					cq10<=cq10+1;
+				END IF;
+		END IF;
+	END process;
+	process(cq10)
+    begin
+		case (cq10) is
+		 WHEN "0000" =>LED10<="0111111";
+         WHEN "0001" =>LED10<="0000110";
+         WHEN "0010" =>LED10<="1011011";
+         WHEN "0011" =>LED10<="1001111";
+         WHEN "0100" =>LED10<="1100110";
+         WHEN "0101" =>LED10<="1101101";
+         WHEN "0110" =>LED10<="1111100";
+         WHEN "0111" =>LED10<="0000111";
+         WHEN "1000" =>LED10<="1111111";
+         WHEN "1001" =>LED10<="1100111";
+         WHEN others =>LED10<="0000000";
+		END case;
+	END process;
+END logic_function;
